@@ -6,6 +6,7 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Video from 'react-native-video';
 import RNFS from 'react-native-fs';
+import PTRView from 'react-native-pull-to-refresh';
 export default function Home({ navigation }) {
   const [open, setOpen] = React.useState(false);
   const [videoUri, setVideoUri] = useState(null);
@@ -87,6 +88,10 @@ export default function Home({ navigation }) {
     }
   };
 
+  const refresh = () => {
+    fetchVideo()
+  }
+
   return (
     <Drawer
       open={open}
@@ -117,11 +122,15 @@ export default function Home({ navigation }) {
             </View>
         }
         <View style={{ height: '91%', width: '100%' }}>
-          <FlatList
-            data={videoUri}
-            renderItem={renderVideos}
-            numColumns={2}
-          />
+          <PTRView onRefresh={() => {
+            refresh()
+          }} >
+            <FlatList
+              data={videoUri}
+              renderItem={renderVideos}
+              numColumns={2}
+            />
+          </PTRView>
         </View>
       </View>
       <Modal
