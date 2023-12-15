@@ -26,7 +26,6 @@ export default function CameraScreen({ navigation }) {
         const Video =
             await camera.current.startRecording({
                 onRecordingFinished: async (video) => {  
-                    console.log(video);
                     const path = video.path
                     await CameraRoll.save(`${ RNFS.DownloadDirectoryPath}+${path}`, {
                         type: 'video'

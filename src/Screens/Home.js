@@ -49,10 +49,10 @@ export default function Home({ navigation }) {
           granted['android.permission.READ_EXTERNAL_STORAGE'] === PermissionsAndroid.RESULTS.GRANTED &&
           granted['android.permission.WRITE_EXTERNAL_STORAGE'] === PermissionsAndroid.RESULTS.GRANTED
         ) {
-          // console.log('External storage permissions granted');
+          console.log('External storage permissions granted');
 
         } else {
-          // console.log('External storage permissions denied');
+          console.log('External storage permissions denied');
         }
       } catch (error) {
         console.error('Error requesting external storage permissions:', error);
