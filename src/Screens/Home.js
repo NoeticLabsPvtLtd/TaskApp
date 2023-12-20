@@ -1,5 +1,5 @@
 import { ActivityIndicator, Platform, StyleSheet, Text, TouchableOpacity, View, PermissionsAndroid, FlatList, Image, Modal } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { Drawer } from 'react-native-drawer-layout';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
@@ -38,6 +38,15 @@ export default function Home({ navigation }) {
       </View>
     )
   }
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <Ionicons name='list' size={30} style={{ color: '#666' }} onPress={() => { setOpen(true) }} />
+      ),
+    });
+  }, [navigation]);
+  
 
   const requestExternalStoragePermission = async () => {
     if (Platform.OS === 'android') {
@@ -100,27 +109,7 @@ export default function Home({ navigation }) {
       renderDrawerContent={DrawerContent}
     >
       <View style={{ height: '100%', width: "100%" }}>
-        {
-          Platform.OS === 'android'
-            ?
-            <View style={{ height: '9%', width: "100%", elevation: 5, backgroundColor: "white", justifyContent: 'center' }}>
-              <Ionicons name='list' size={30} style={{ marginLeft: 1, position: 'absolute', marginLeft: 5, color: '#666' }} onPress={() => { setOpen(true) }} />
-              <Text style={{ alignSelf: 'center', marginLeft: 1, fontSize: 16, fontWeight: '600', color: '#666' }}>Dashboard</Text>
-            </View>
-            :
-            <View style={{
-              height: '9%', width: "100%", elevation: 5, backgroundColor: "white", justifyContent: 'center', shadowColor: 'black',
-              shadowOpacity: 0.3,
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowRadius: 4,
-            }}>
-              <Ionicons name='list' size={30} style={{ marginLeft: 1, position: 'absolute', bottom: 6, marginLeft: 7, color: '#666' }} onPress={() => { setOpen(true) }} />
-              <Text style={{ alignSelf: 'center', marginLeft: 1, position: 'absolute', bottom: 15, fontSize: 16, fontWeight: '600', color: '#666' }}>Dashboard</Text>
-            </View>
-        }
+
         <View style={{ height: '91%', width: '100%' }}>
           <PTRView onRefresh={() => {
             refresh()
@@ -136,13 +125,14 @@ export default function Home({ navigation }) {
       <Modal
         visible={videoModal}
         onRequestClose={() => { setVideoModal(false) }}
+        style={{ height: '100%', width: "100%", justifyContent: "center", alignItems: "center" }}
       >
         <View style={{ height: '100%', width: '100%', alignItems: 'center', justifyContent: 'center' }}>
           <Video
             source={{ uri: video }}
-            style={StyleSheet.absoluteFill}
             controls={true}
             fullscreen={true}
+            style={StyleSheet.absoluteFillObject}
           />
         </View>
       </Modal>

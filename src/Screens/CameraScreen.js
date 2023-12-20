@@ -87,23 +87,23 @@ export default function CameraScreen({ navigation }) {
             />
             {!start ? <>
                 <TouchableOpacity
-                    style={{ height: 60, width: 60, backgroundColor: '#bd2f32', position: "absolute", bottom: 20, alignSelf: "center", borderRadius: 100 }}
+                    style={{ height: 60, width: 60, backgroundColor: '#bd2f32', position: "absolute", bottom: 30, alignSelf: "center", borderRadius: 100 }}
                     onPress={() => { RecordVideo(), setStart(!start), toggleTimer() }}
                 />
             </>
                 : <>
-                    <MaterialIcons name='pause-circle' color={'red'} style={{ position: "absolute", bottom: 20, alignSelf: "center" }} size={65} onPress={() => { StopRecord(), setStart(!start), resetTimer() }} />
-                    <Text style={{ position: "absolute", bottom: 10, alignSelf: "center", }}>{seconds}</Text>
+                    <MaterialIcons name='pause-circle' color={'red'} style={{ position: "absolute", bottom: 30, alignSelf: "center" }} size={65} onPress={() => { StopRecord(), setStart(!start), resetTimer() }} />
+                    <Text style={{ position: "absolute", bottom: 10, alignSelf: "center", fontSize: 18, fontWeight: '500', color: 'red' }}>00:0{seconds}</Text>
                 </>
             }
-            <TouchableOpacity style={{ height: 60, width: 60, backgroundColor: 'lightgrey', position: "absolute", bottom: 20, left: '5%', borderRadius: 100, justifyContent: 'center', alignItems: 'center' }} onPress={() => { setplaypausebtn(!playpausebtn) }} >
+            <TouchableOpacity style={{ height: 60, width: 60, backgroundColor: 'lightgrey', position: "absolute", bottom: 30, left: '5%', borderRadius: 100, justifyContent: 'center', alignItems: 'center' }} onPress={() => { setplaypausebtn(!playpausebtn) }} >
                 {!playpausebtn ?
                     <AntDesign name='pause' size={30} onPress={() => { PauseRecording() }} />
                     :
                     <AntDesign name='play' size={30} onPress={() => { PlayRecording() }} />
                 }
             </TouchableOpacity>
-            <TouchableOpacity style={{ height: 60, width: 60, backgroundColor: 'lightgrey', position: "absolute", bottom: 20, right: '5%', borderRadius: 100, justifyContent: 'center', alignItems: 'center' }} onPress={() => { setIsFrontCamera(!isFrontCamera) }} >
+            <TouchableOpacity style={{ height: 60, width: 60, backgroundColor: 'lightgrey', position: "absolute", bottom: 30, right: '5%', borderRadius: 100, justifyContent: 'center', alignItems: 'center' }} onPress={() => { setIsFrontCamera(!isFrontCamera) }} >
                 <MaterialIcons name='flip-camera-android' size={30} />
             </TouchableOpacity>
         </View>
