@@ -3,11 +3,14 @@ import React, { useState } from 'react'
 import { Inputetext } from '../Componant/InputText';
 import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-simple-toast';
+import { useSelector } from 'react-redux';
 export default function Login({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false)
 
+    const Logininfo = useSelector((state) => state)
+    console.log(Logininfo);
 
     const signIn = async () => {
         setIsLoading(true)
