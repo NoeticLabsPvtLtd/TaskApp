@@ -3,23 +3,29 @@ import React, { useState } from 'react'
 import { Inputetext } from '../Componant/InputText';
 import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-simple-toast';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetLoginInfo } from '../ReduxComponant/Reducers/LoginSlice';
 export default function Login({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false)
 
-    const Logininfo = useSelector((state) => state)
-    console.log(Logininfo);
+    const dispatch = useDispatch();
 
     const signIn = async () => {
         setIsLoading(true)
         console.log(email, password);
         try {
             var status = await auth().signInWithEmailAndPassword(email, password);
+            console.log(status);
+            dispatch(GetLoginInfo(status));
             if (status.user.uid != null) {
                 Toast.show('Login Successfull', Toast.LONG);
                 navigation.navigate('HomeScreen')
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'HomeScreen' }],
+                });
             }
             setIsLoading(false)
             setEmail('')
@@ -32,14 +38,19 @@ export default function Login({ navigation }) {
     };
 
     const resetPassword = async () => {
-        try {
-            let status = await auth().sendPasswordResetEmail(email);
-            console.log(status);
-            Alert.alert('Success', 'Password reset email sent');
-        } catch (error) {
-            Alert.alert('Error', error.message);
+        if (email === '') {
+            Toast.show('Please enter email', Toast.LONG);
+        } else {
+            try {
+                let status = await auth().sendPasswordResetEmail(email);
+                console.log(status);
+                Toast.show('Success Password reset email sent', Toast.LONG);
+            } catch (error) {
+                Toast.show(error.message, Toast.LONG);
+            }
         }
     };
+
 
     return (
         <KeyboardAvoidingView
