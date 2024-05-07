@@ -13,8 +13,8 @@ export default function NavigationComponant() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name='HomeScreen' component={HomeScreen} />
         <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name='HomeScreen' component={HomeScreen} options={{title:'Add User'}} />
         <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>

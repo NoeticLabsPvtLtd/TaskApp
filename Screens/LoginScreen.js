@@ -17,15 +17,15 @@ export default function Login({ navigation }) {
         console.log(email, password);
         try {
             var status = await auth().signInWithEmailAndPassword(email, password);
-            console.log(status);
+            console.log(status.user.uid);
             dispatch(GetLoginInfo(status));
             if (status.user.uid != null) {
-                Toast.show('Login Successfull', Toast.LONG);
                 navigation.navigate('HomeScreen')
                 navigation.reset({
                     index: 0,
                     routes: [{ name: 'HomeScreen' }],
                 });
+                Toast.show('Login Successfull', Toast.LONG);
             }
             setIsLoading(false)
             setEmail('')
@@ -50,7 +50,6 @@ export default function Login({ navigation }) {
             }
         }
     };
-
 
     return (
         <KeyboardAvoidingView

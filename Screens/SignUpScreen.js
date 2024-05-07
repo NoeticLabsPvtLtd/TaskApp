@@ -13,7 +13,7 @@ export default function SignUpScreen({ navigation }) {
         try {
             let status = await auth().createUserWithEmailAndPassword(email, password);
             console.log(status);
-            Toast.show('Sign Up Successfull!', Toast.LONG);
+            Toast.show('Sign Up Successfull! Plese Sign in', Toast.LONG);
             if (status.user.uid != null) {
                 navigation.navigate('Login')
             }
@@ -23,6 +23,9 @@ export default function SignUpScreen({ navigation }) {
            
         } catch (error) {
             // Alert.alert('Error', error.message);
+            setIsLoading(false)
+            setEmail('')
+            setPassword('')
             Toast.show(error.message, Toast.LONG);
         }
     };

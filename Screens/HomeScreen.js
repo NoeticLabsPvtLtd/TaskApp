@@ -17,7 +17,8 @@ export default function HomeScreen() {
   const [updateModal, setUpdateModal] = useState(false)
   const [userId, setUserId] = useState()
 
-  // const Logininfo = useSelector((state) => state)
+  const Logininfo = useSelector((state) => state)
+  console.log(Logininfo);
 
   useEffect(() => {
     const unsubscribe = firestore().collection('users').onSnapshot(snapshot => {
