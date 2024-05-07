@@ -251,7 +251,7 @@
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
-				D1385C502BE9FAA80041C79E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				D1385C502BE9FAA80041C79E /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -648,7 +648,10 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -721,7 +724,10 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -762,7 +768,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		D1385C502BE9FAA80041C79E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		D1385C502BE9FAA80041C79E /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
@@ -775,27 +781,27 @@
 /* Begin XCSwiftPackageProductDependency section */
 		D1385C512BE9FAA80041C79E /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D1385C502BE9FAA80041C79E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = D1385C502BE9FAA80041C79E /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebaseAnalytics;
 		};
 		D1385C532BE9FAA80041C79E /* FirebaseAnalyticsOnDeviceConversion */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D1385C502BE9FAA80041C79E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = D1385C502BE9FAA80041C79E /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebaseAnalyticsOnDeviceConversion;
 		};
 		D1385C552BE9FAA80041C79E /* FirebaseAnalyticsSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D1385C502BE9FAA80041C79E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = D1385C502BE9FAA80041C79E /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebaseAnalyticsSwift;
 		};
 		D1385C572BE9FAA80041C79E /* FirebaseAnalyticsWithoutAdIdSupport */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D1385C502BE9FAA80041C79E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = D1385C502BE9FAA80041C79E /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebaseAnalyticsWithoutAdIdSupport;
 		};
 		D1385C592BE9FAA80041C79E /* FirebaseAppCheck */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D1385C502BE9FAA80041C79E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = D1385C502BE9FAA80041C79E /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebaseAppCheck;
 		};
 /* End XCSwiftPackageProductDependency section */

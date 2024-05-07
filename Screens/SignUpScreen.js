@@ -3,40 +3,30 @@ import React, { useState } from 'react'
 import { Inputetext } from '../Componant/InputText';
 import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-simple-toast';
-export default function Login({ navigation }) {
+export default function SignUpScreen({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false)
 
-
-    const signIn = async () => {
+    const signUp = async () => {
         setIsLoading(true)
-        console.log(email, password);
         try {
-            var status = await auth().signInWithEmailAndPassword(email, password);
+            let status = await auth().createUserWithEmailAndPassword(email, password);
+            console.log(status);
+            Toast.show('Sign Up Successfull!', Toast.LONG);
             if (status.user.uid != null) {
-                Toast.show('Login Successfull', Toast.LONG);
-                navigation.navigate('HomeScreen')
+                navigation.navigate('Login')
             }
             setIsLoading(false)
             setEmail('')
             setPassword('')
-
+           
         } catch (error) {
-            console.log(error);
+            // Alert.alert('Error', error.message);
             Toast.show(error.message, Toast.LONG);
         }
     };
 
-    const resetPassword = async () => {
-        try {
-            let status = await auth().sendPasswordResetEmail(email);
-            console.log(status);
-            Alert.alert('Success', 'Password reset email sent');
-        } catch (error) {
-            Alert.alert('Error', error.message);
-        }
-    };
 
     return (
         <KeyboardAvoidingView
@@ -67,18 +57,15 @@ export default function Login({ navigation }) {
                             isLoading ?
                                 <ActivityIndicator size={'large'} color={'#26a1ab'} />
                                 :
-                                <TouchableOpacity style={{ height: 45, width: '40%', backgroundColor: "#26a1ab", alignSelf: 'center', marginTop: 10, justifyContent: 'center', alignItems: 'center', borderRadius: 10 }} onPress={() => { signIn() }}>
-                                    <Text style={{ color: '#fff', fontSize: 14, fontWeight: '600' }}>LOGIN</Text>
+                                <TouchableOpacity style={{ height: 45, width: '40%', backgroundColor: "#26a1ab", alignSelf: 'center', marginTop: 10, justifyContent: 'center', alignItems: 'center', borderRadius: 10 }} onPress={() => { signUp() }}>
+                                    <Text style={{ color: '#fff', fontSize: 14, fontWeight: '600' }}>Sign Up</Text>
                                 </TouchableOpacity>
                         }
-                        <TouchableOpacity onPress={() => resetPassword()}>
-                            <Text style={{ alignSelf: 'center', marginTop: 5 }}>Forgot password</Text>
-                        </TouchableOpacity>
                     </View>
                     <View style={{ height: 60, width: '100%', position: 'absolute', bottom: 20, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ color: 'white' }}>Don't have an account please</Text>
-                        <TouchableOpacity onPress={() => { navigation.navigate('SignUp') }}>
-                            <Text style={{ color: '#26a1ab' }}>Sign Up</Text>
+                        <Text style={{ color: 'white' }}>Already have an account please</Text>
+                        <TouchableOpacity onPress={() => { navigation.navigate('Login') }}>
+                            <Text style={{ color: '#26a1ab' }}>Sign in</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
