@@ -1,10 +1,6 @@
-import { Button, FlatList, Modal, ScrollView, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useLayoutEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import firestore from '@react-native-firebase/firestore';
-import AntDesign from 'react-native-vector-icons/AntDesign'
-import Toast from 'react-native-simple-toast';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { Drawer } from 'react-native-drawer-layout'
 import Entypo from 'react-native-vector-icons/Entypo'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
@@ -12,32 +8,11 @@ import Foundation from 'react-native-vector-icons/Foundation'
 
 export default function UserHome({ navigation }) {
 
-    const [data, setData] = useState([]);
-    const [name, setName] = useState('');
-    const [age, setAge] = useState('');
-    const [email, setEmail] = useState('')
-    const [aadress, setAddress] = useState('')
-    const [mobile, setMobile] = useState('')
     const [visible, setvisible] = useState(false)
-    const [clickedData, setClickedData] = useState([{ "aadress": "", "age": 0, "email": "", "id": "", "mobile": "", "name": "" }])
-    const [updateModal, setUpdateModal] = useState(false)
-    const [userId, setUserId] = useState()
     const [disOpen, setDisOpen] = useState(false)
     const Logininfo = useSelector((state) => state.LoginInfo.LoginInfo)
     console.log(Logininfo);
 
-    useEffect(() => {
-        const unsubscribe = firestore().collection('users').onSnapshot(snapshot => {
-            if (snapshot && !snapshot.empty) { // Check if snapshot exists and has data
-                const newData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                setData(newData);
-                // console.log(newData);
-            } else {
-                setData([]); // Set data to an empty array if there is no data
-            }
-        });
-        return () => unsubscribe();
-    }, []);
 
     const renderDrawerContent = () => {
         return (
@@ -57,7 +32,7 @@ export default function UserHome({ navigation }) {
                         <Entypo name='info-with-circle' style={{ fontSize: 18, fontWeight: '500', color: 'black' }} />
                         <Text style={{ fontSize: 18, fontWeight: '500', color: 'black', marginLeft: 5 }}>About us</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ height: 40, width: '90%', backgroundColor: 'white', alignItems: 'center', borderRadius: 10, marginTop: 10, marginLeft: 5, flexDirection: "row", paddingLeft: '5%', elevation: 5 }} onPress={() => {  }}>
+                    <TouchableOpacity style={{ height: 40, width: '90%', backgroundColor: 'white', alignItems: 'center', borderRadius: 10, marginTop: 10, marginLeft: 5, flexDirection: "row", paddingLeft: '5%', elevation: 5 }} onPress={() => { }}>
                         <Entypo name='log-out' style={{ fontSize: 18, fontWeight: '500', color: 'black' }} />
                         <Text style={{ fontSize: 18, fontWeight: '500', color: 'black', marginLeft: 5 }}>logout</Text>
                     </TouchableOpacity>
