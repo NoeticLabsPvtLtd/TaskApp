@@ -1,5 +1,6 @@
 import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
+import firestore from '@react-native-firebase/firestore';
 import { Inputetext } from '../Componant/InputText';
 import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-simple-toast';
@@ -7,25 +8,31 @@ export default function SignUpScreen({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false)
+    const [name, setName] = useState('');
+    const [age, setAge] = useState('');
+    const [mobile, setMobile] = useState('')
 
     const signUp = async () => {
-        setIsLoading(true)
+        setIsLoading(true);
         try {
-            let status = await auth().createUserWithEmailAndPassword(email, password);
-            console.log(status);
-            Toast.show('Sign Up Successfull! Plese Sign in', Toast.LONG);
-            if (status.user.uid != null) {
-                navigation.navigate('Login')
-            }
-            setIsLoading(false)
-            setEmail('')
-            setPassword('')
-           
+            const { user } = await auth().createUserWithEmailAndPassword(email, password);
+            await firestore().collection('users').doc(user.uid).set({
+                name: name,
+                age: age,
+                mobile: mobile,
+                isAdmin: false, // Set isAdmin to false by default for new users
+            });
+            console.log('User signup successful:', user);
+            Toast.show('Sign Up Successful! Please Sign In', Toast.LONG);
+            setIsLoading(false);
+            setEmail('');
+            setPassword('');
+            navigation.navigate('Login');
         } catch (error) {
-            // Alert.alert('Error', error.message);
-            setIsLoading(false)
-            setEmail('')
-            setPassword('')
+            console.error('Error signing up:', error);
+            setIsLoading(false);
+            setEmail('');
+            setPassword('');
             Toast.show(error.message, Toast.LONG);
         }
     };
@@ -41,8 +48,14 @@ export default function SignUpScreen({ navigation }) {
                     contentContainerStyle={{ flexGrow: 1 }}
                     keyboardShouldPersistTaps="handled"
                 >
-                    <View style={{ height: '35%', width: '80%', alignSelf: 'center', marginTop: '25%', backgroundColor: '#eceef1', borderRadius: 10 }}>
+                    <View style={{ height: '55%', width: '80%', alignSelf: 'center', marginTop: '25%', backgroundColor: '#eceef1', borderRadius: 10 }}>
                         <Text style={{ fontSize: 28, fontWeight: '400', color: '#4db3a5', alignSelf: 'center', marginTop: 20 }}>Sign In</Text>
+                        <Inputetext
+                            placeholder='Name'
+                            onChange={(text) => setName(text)}
+                            onChangeText={(text) => setName(text)}
+                            value={name}
+                        />
                         <Inputetext
                             placeholder='Email'
                             onChange={(text) => setEmail(text)}
@@ -55,6 +68,20 @@ export default function SignUpScreen({ navigation }) {
                             onChangeText={(text) => setPassword(text)}
                             value={password}
                             secureTextEntry={true}
+                        />
+                        <Inputetext
+                            placeholder='age'
+                            onChange={(text) => setAge(text)}
+                            onChangeText={(text) => setAge(text)}
+                            value={age}
+                            keyboardType={'numeric'}
+                        />
+                        <Inputetext
+                            placeholder='Mobile No'
+                            onChange={(text) => setMobile(text)}
+                            onChangeText={(text) => setMobile(text)}
+                            value={mobile}
+                            keyboardType={'numeric'}
                         />
                         {
                             isLoading ?

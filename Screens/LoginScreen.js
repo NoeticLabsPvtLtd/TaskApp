@@ -5,37 +5,13 @@ import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-simple-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetLoginInfo } from '../ReduxComponant/Reducers/LoginSlice';
+import firestore from '@react-native-firebase/firestore';
 export default function Login({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false)
 
     const dispatch = useDispatch();
-
-    const signIn = async () => {
-        setIsLoading(true)
-        console.log(email, password);
-        try {
-            var status = await auth().signInWithEmailAndPassword(email, password);
-            console.log(status.user.uid);
-            dispatch(GetLoginInfo(status));
-            if (status.user.uid != null) {
-                navigation.navigate('HomeScreen')
-                navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'HomeScreen' }],
-                });
-                Toast.show('Login Successfull', Toast.LONG);
-            }
-            setIsLoading(false)
-            setEmail('')
-            setPassword('')
-
-        } catch (error) {
-            console.log(error);
-            Toast.show(error.message, Toast.LONG);
-        }
-    };
 
     const resetPassword = async () => {
         if (email === '') {
@@ -50,6 +26,45 @@ export default function Login({ navigation }) {
             }
         }
     };
+
+    const signIn = async () => {
+        setIsLoading(true);
+        try {
+            const { user } = await auth().signInWithEmailAndPassword(email, password);
+            const userDoc = await firestore().collection('users').doc(user.uid).get();
+            if (userDoc.exists) {
+                const userData = userDoc.data();
+                dispatch(GetLoginInfo(userData));
+                if (userData.isAdmin) {
+                    navigation.navigate('AdminHome')
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'AdminHome' }],
+                    });
+                } else {
+                    navigation.navigate('UserHome')
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'UserHome' }],
+                    });
+                }
+                console.log('User data:', userData);
+            } else {
+                console.error('User document not found in Firestore');
+            }
+            setIsLoading(false);
+            setEmail('');
+            setPassword('');
+            Toast.show('Login Successfull', Toast.LONG);
+        } catch (error) {
+            console.error('Error signing in:', error);
+            setIsLoading(false);
+            setEmail('');
+            setPassword('');
+            Toast.show(error.message, Toast.LONG);
+        }
+    };
+
 
     return (
         <KeyboardAvoidingView
